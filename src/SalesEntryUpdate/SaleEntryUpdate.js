@@ -1,11 +1,12 @@
 import React from 'react'
-import './SaleEntry.css'
+import './SaleEntryUpdate.css'
 import ValidationError from '../ValidationError'
 const { API_SERVER_TOKEN, API_SERVER_URL  } = require('../config')
 
-class SaleEntry extends React.Component{
+class SaleEntryUpdate extends React.Component{
     state = {
         salesPeople: []
+        ,PostdatatoMod: {}
         ,salespersonId: 0
         ,salesNumberInput : {
             value: ''
@@ -50,27 +51,39 @@ class SaleEntry extends React.Component{
     }
 
     componentDidMount() {
-        fetch(`${API_SERVER_URL}/api/salepeople`, {
-            headers: {
-              'content-type': 'application/json',
-              'Authorization': `Bearer ${API_SERVER_TOKEN}`
-            },
-          })
-          .then(res => {
-              if (!res.ok) {
-                  throw new Error(res.status)
-              }
-              return res.json()
-          })
-          .then(data => {
-            this.setState({
-                salesPeople: data
+        Promise.all([
+          fetch(`${API_SERVER_URL}/api/salepeople`, {
+            headers: new Headers({
+              'Authorization': `Bearer ${API_SERVER_TOKEN}`, 
+            }) 
+          }),
+          fetch(`${API_SERVER_URL}/api/postings/${this.props.id}`, {
+            headers: new Headers({
+              'Authorization': `Bearer ${API_SERVER_TOKEN}`, 
             })
           })
-          .catch(error => {
-              this.setState({errorMessage: error.message});
+        ])
+          .then(([salesPeople, PostdatatoMod]) => {
+            if (!salesPeople.ok)
+              return salesPeople.json().then(e => Promise.reject(e))
+            if (!PostdatatoMod.ok)
+              return PostdatatoMod.json().then(e => Promise.reject(e))
+    
+            return Promise.all([
+                salesPeople.json(),
+                PostdatatoMod.json(),
+            ])
           })
+          .then(([salesPeople, PostdatatoMod]) => {
+            this.setState({ salesPeople, PostdatatoMod })
+            this.updateStateOnLoad(PostdatatoMod)
+          })
+          .catch(error => {
+            this.setState({errorMessage: error.message});
+        })
     }
+
+    
 
     updateSalesPersonId(salesPerson_id) {
         this.setState({salespersonId: salesPerson_id});
@@ -117,10 +130,10 @@ class SaleEntry extends React.Component{
     }
 
 
-    AddingNewPostToAPI (){
-        fetch(`${API_SERVER_URL}/api/postings`, {
-          method: 'POST',
-          body: JSON.stringify({
+    UpdatePostToAPI (){
+        fetch(`${API_SERVER_URL}/api/postings/${this.props.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
                 "sales_person_id" : this.state.salespersonId,
                 "sales_number": this.state.salesNumberInput.value,
                 "invoice": this.state.invoicenumberInput.value,
@@ -133,11 +146,11 @@ class SaleEntry extends React.Component{
                 "vendor": this.state.vendorInput.value,
                 "date_paid": this.state.datePaidInput.value,
                 "paid": false,
-          }),
-          headers: {
+        }),
+        headers: {
             'content-type': 'application/json',
             'Authorization': `Bearer ${API_SERVER_TOKEN}`
-          },
+        },
         })
         .then(res => {
             if (!res.ok) {
@@ -149,16 +162,15 @@ class SaleEntry extends React.Component{
           this.props.history.push('/collection')
         })
         .catch(error => {
-            // console.log(error)
+            console.log(error.message)
          this.setState({errorMessage: error.message});
         })
     }
 
     handleSubmit(event) {
         event.preventDefault();
-
         
-        this.AddingNewPostToAPI()
+        this.UpdatePostToAPI()
     }
 
     validateDollarAmount() {
@@ -201,7 +213,23 @@ class SaleEntry extends React.Component{
         );
     }
 
+    updateStateOnLoad(data){
+        this.setState({ salespersonId:  data.sale_person_id
+            , salesNumberInput: { value: data.sales_number }
+            , invoicenumberInput: { value: data.invoice }
+            , dollarAmountInput: { value: data.dollar_amount.substring(1) } 
+            , commissionPercentageInput: { value: data.commission_percentage_fraction } 
+            , commissionAmountInput: { value: data.commission_amount }
+            , poNumberInput: { value: data.po_number }
+            , customerInput: { value: data.customer }
+            , territoryInput: { value: data.territory }
+            , vendorInput: { value: data.vendor }
+            , datePaidInput: { value: data.date_paid }
+        })
+    }
+
     render(){
+        
         const salesPeopleOptions = this.state.salesPeople.map(salePerson => 
             <option key={salePerson.id} value={salePerson.id}>{salePerson.first_name} {' '} {salePerson.last_name}</option>
         );
@@ -218,7 +246,7 @@ class SaleEntry extends React.Component{
 
                         <div className="item">
                             <label htmlFor="salesperson">Select a sales person <span>*</span></label>
-                            <select name="salesperson" id="salesperson" onChange={e => this.updateSalesPersonId(e.target.value)}>
+                            <select name="salesperson" id="salesperson" value={this.state.PostdatatoMod.sale_person_id} onChange={e => this.updateSalesPersonId(e.target.value)}>
                                 <option>.....</option>
                                 {salesPeopleOptions}
                             </select>
@@ -229,11 +257,11 @@ class SaleEntry extends React.Component{
                             <div className="name-item">
                                 <div>
                                     <label htmlFor="salesNumber">Sales Number<span>*</span></label>
-                                    <input id="salesNumber" type="text" name="salesNumber" onChange={e => this.updateSaleNumber(e.target.value)} />
+                                    <input id="salesNumber" type="text" name="salesNumber" defaultValue={this.state.PostdatatoMod.sales_number} onChange={e => this.updateSaleNumber(e.target.value)} />
                                 </div>
                                 <div>
                                     <label htmlFor="invoicenumber">Invoice Number <span>*</span></label>
-                                    <input id="invoicenumber" type="text" name="invoicenumber" onChange={e => this.updateInvoiceNumber(e.target.value)} />
+                                    <input id="invoicenumber" type="text" name="invoicenumber" defaultValue={this.state.PostdatatoMod.invoice} onChange={e => this.updateInvoiceNumber(e.target.value)} />
                                 </div>
                             </div>
                         </div>
@@ -243,12 +271,12 @@ class SaleEntry extends React.Component{
                             <div className="name-item">
                                 <div>
                                     <label htmlFor="dollaramount">Dollar Amount<span>*</span></label>
-                                    <input id="dollaramount" type="text" name="dollaramount" onChange={e => this.updateDollarAmout(e.target.value)}/>
+                                    <input id="dollaramount" type="text" name="dollaramount" defaultValue={this.state.PostdatatoMod.dollar_amount} onChange={e => this.updateDollarAmout(e.target.value)}/>
                                     {this.state.dollarAmountInput.touched && (<ValidationError message={dollarAmountError} />)}
                                 </div>
                                 <div>
                                     <label htmlFor="commissionpercentage">Commission percentage<span>*</span></label>
-                                    <input id="commissionpercentage" type="text" name="commissionpercentage" onChange={ e => this.updateCommissionPercent(e.target.value)} />
+                                    <input id="commissionpercentage" type="text" name="commissionpercentage" defaultValue={this.state.PostdatatoMod.commission_percentage_fraction} onChange={ e => this.updateCommissionPercent(e.target.value)} />
                                     {this.state.commissionPercentageInput.touched && (<ValidationError message={commissionPercentError} />)}
                                 </div>
                             </div>
@@ -258,12 +286,12 @@ class SaleEntry extends React.Component{
                             <div className="name-item">
                                 <div>
                                     <label htmlFor="comissionamount">Commission Amount<span>*</span></label>
-                                    <input id="comissionamount" type="text" name="comissionamount" onChange={ e => this.updateCommissionAmount(e.target.value)} />
+                                    <input id="comissionamount" type="text" name="comissionamount" defaultValue={this.state.PostdatatoMod.commission_amount} onChange={ e => this.updateCommissionAmount(e.target.value)} />
                                     {this.state.commissionAmountInput.touched && (<ValidationError message={commissionAmountError} />)}
                                 </div>
                                 <div>
                                     <label htmlFor="ponumber">PO number</label>
-                                    <input id="ponumber" type="text" name="ponumber" onChange={ e => this.updatePoNumber(e.target.value)} />
+                                    <input id="ponumber" type="text" name="ponumber" defaultValue={this.state.PostdatatoMod.po_number} onChange={ e => this.updatePoNumber(e.target.value)} />
                                 </div>
                             </div>
                         </div>
@@ -272,11 +300,11 @@ class SaleEntry extends React.Component{
                             <div className="name-item">
                                 <div>
                                 <label htmlFor="customer">Customer<span>*</span></label>
-                                <input id="customer" type="text" name="customer" onChange={ e => this.updateCustomer(e.target.value)} />
+                                <input id="customer" type="text" name="customer" defaultValue={this.state.PostdatatoMod.customer} onChange={ e => this.updateCustomer(e.target.value)} />
                                 </div>
                                 <div>
                                 <label htmlFor="job">Territory<span>*</span></label>
-                                <select name="territory" id="territory" onChange={e => this.updateTerritory(e.target.value)}>
+                                <select name="territory" id="territory" value={this.state.PostdatatoMod.territory} onChange={e => this.updateTerritory(e.target.value)}>
                                     <option>.....</option>
                                     {this.renderTerritoryOptions()}
                                 </select>
@@ -288,17 +316,17 @@ class SaleEntry extends React.Component{
                             <div className="name-item">
                                 <div>
                                 <label htmlFor="vendor">Vendor<span>*</span></label>
-                                <input id="vendor" type="text" name="vendor" onChange={e => this.updateVendor(e.target.value)} />
+                                <input id="vendor" type="text" name="vendor" defaultValue={this.state.PostdatatoMod.vendor} onChange={e => this.updateVendor(e.target.value)} />
                                 </div>
                                 <div>
                                 <label htmlFor="datepaid">Date paid</label>
-                                <input id="datepaid" type="date" name="datepaid" onChange={ e => this.updateDatePaid(e.target.value)} />
+                                <input id="datepaid" type="date" name="datepaid" defaultValue={this.state.PostdatatoMod.date_paid} onChange={ e => this.updateDatePaid(e.target.value)} />
                                 <i className="fas fa-calendar-alt"></i>
                                 </div>
                             </div>
                         </div>
                         <div className="btn-block">
-                            <button type="submit" href="/">Submit</button>
+                            <button type="submit" href="/">Update</button>
                         </div>
                     </form>
                 </div>
@@ -307,4 +335,4 @@ class SaleEntry extends React.Component{
     }
 }
 
-export default SaleEntry;
+export default SaleEntryUpdate;

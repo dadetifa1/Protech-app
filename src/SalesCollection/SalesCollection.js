@@ -1,7 +1,86 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './SalesCollection.css'
+const { API_SERVER_TOKEN, API_SERVER_URL  } = require('../config')
 
 class SalesCollection extends React.Component{
+    state = {
+        allPosting: [],
+        updated: false
+    }
+
+    componentDidMount() {
+        fetch(`${API_SERVER_URL}/api/postings`, {
+            headers: {
+              'content-type': 'application/json',
+              'Authorization': `Bearer ${API_SERVER_TOKEN}`
+            },
+          })
+          .then(res => {
+              if (!res.ok) {
+                  throw new Error(res.status)
+              }
+              return res.json()
+          })
+          .then(data => {
+            this.setState({
+                allPosting: data
+            })
+          })
+          .catch(error => {
+              this.setState({errorMessage: error.message});
+          })
+    }
+
+    
+    handleClickDelete = postId => e => {
+        fetch(`${API_SERVER_URL}/api/postings/${postId}`, {
+          method: 'DELETE',
+          headers: {
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${API_SERVER_TOKEN}`
+          },
+        })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(res.status)
+            }
+          })
+          .then(() => {
+            let updatedData = this.state.allPosting.filter(post => post.id !== postId)
+            this.setState({allPosting: updatedData});
+          })
+          .catch(error => {
+            this.setState({ errormessage:  error.message })
+        })
+    }
+
+    renderTableData() {
+        return this.state.allPosting.map((posting) => {
+           return (
+              <tr key={posting.id}>
+                 <td>{posting.sales_number}</td>
+                 <td>{posting.vendor}</td>
+                 <td>{posting.territory}</td>
+                 <td>{posting.invoice}</td>
+                 <td>{posting.paid}</td>
+                 <td>
+                    <Link to={`/salesentry/update/${posting.id}`}>
+                        <button type="button">
+                            Update
+                        </button>
+                    </Link>
+                 </td>
+                 <td>
+                    <button id="delete_posting" value={posting.id} onClick={this.handleClickDelete(posting.id)} >
+                        Delete posting
+                    </button>
+                 </td>
+              </tr>
+           )
+        })
+    }
+
     render(){
         return(
             <section className="app-section">
@@ -12,48 +91,22 @@ class SalesCollection extends React.Component{
                 <table className="blueTable">
                     <thead>
                         <tr>
-                            <th>Sales Person</th>
+                            <th>Sales number</th>
                             <th>Vendor</th>
                             <th>Territory</th>
+                            <th>Invoice Number</th>
                             <th>Paid</th>
                         </tr>
                     </thead>
-                     <tfoot>
+                    {/* <tfoot>
                         <tr>
                         <td colSpan="4">
                         <div className="links"><a href="#">&laquo;</a> <a className="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">&raquo;</a></div>
                         </td>
                         </tr>
-                    </tfoot>
+                    </tfoot> */}
                     <tbody>
-                        <tr>
-                            <td>sales person 1</td>
-                            <td>vendor A</td>
-                            <td>No. Dakota</td>
-                            <td>True</td>
-                            <td>Update - delete</td>
-                        </tr>
-                        <tr>
-                            <td>sales person 2</td>
-                            <td>vendor A</td>
-                            <td>Colorado</td>
-                            <td>false</td>
-                            <td>Update - delete</td>
-                        </tr>
-                        <tr>
-                            <td>sales person 3</td>
-                            <td>vendor B</td>
-                            <td>Iowa</td>
-                            <td>false</td>
-                            <td>Update - delete</td>
-                        </tr>
-                        <tr>
-                            <td>sales person 4</td>
-                            <td>vendor C</td>
-                            <td>Minnesota</td>
-                            <td>false</td>
-                            <td>Update - delete</td>
-                        </tr> 
+                        {this.renderTableData()}
                     </tbody> 
                 </table>
             </section>

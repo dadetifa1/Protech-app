@@ -8,7 +8,7 @@ class Landing extends React.Component{
             <section className="app-section">
                 <h1>Protech - app</h1>
                 <h4>Never worry about losing a sale's commission again</h4>
-                <Link to={'/home'}>
+                <Link to={'/collection'}>
                     Enter Site
                 </Link>
             </section>

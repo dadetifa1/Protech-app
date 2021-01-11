@@ -16,8 +16,12 @@ export default function Nav(props) {
         </Link>
       </div>
       <div className="right-links">
-        <a className="links" href="#">Register</a>
-        <a className="links" href="#">Login</a>
+        <Link className="links" to={'/'}>
+          Register
+        </Link>
+        <Link className="links" to={'/'}>
+          Login
+        </Link>
       </div>
     </nav>
   );
