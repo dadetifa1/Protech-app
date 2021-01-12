@@ -15,14 +15,14 @@ export default function Nav(props) {
           Enter sales
         </Link>
       </div>
-      <div className="right-links">
+      {/* <div className="right-links">
         <Link className="links" to={'/'}>
           Register
         </Link>
         <Link className="links" to={'/'}>
           Login
         </Link>
-      </div>
+      </div> */}
     </nav>
   );
 }

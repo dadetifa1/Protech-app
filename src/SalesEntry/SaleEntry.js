@@ -218,8 +218,8 @@ class SaleEntry extends React.Component{
 
                         <div className="item">
                             <label htmlFor="salesperson">Select a sales person <span>*</span></label>
-                            <select name="salesperson" id="salesperson" onChange={e => this.updateSalesPersonId(e.target.value)}>
-                                <option>.....</option>
+                            <select name="salesperson" id="salesperson" onChange={e => this.updateSalesPersonId(e.target.value)} required>
+                                <option value="">.....</option>
                                 {salesPeopleOptions}
                             </select>
                         </div>
