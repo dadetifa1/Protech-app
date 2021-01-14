@@ -18,11 +18,11 @@ A user can use this application to track commissions for different sale's people
 ## Screen Shots
 Capture a sale:
 
-![Landing Page](screenshots/sales_entry.jpg)
+![Landing Page](screen_shots/sales_entry.jpg)
 
 Sales collection(s):
 
-![sample results](screenshots/sales_collections.jpg)
+![sample results](screen_shots/sales_collections.jpg)
 
 
 ## Tech used 
