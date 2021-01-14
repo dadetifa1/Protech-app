@@ -13,36 +13,54 @@ body {
     line-height: 1.5;
 }
 
-
-/* nav,
-footer {
-  padding: 1% 0;
-  background-color: #aaa;
+html, body {
+  height: 100%;
+  margin: 0;
 }
 
-header {
-    padding: 12% 0;
+/* .full-height {
+  height: 100%;
+  background: yellow;
+} */
+
+.app-section {
+  height: 100%;
+  padding: 6% 0;
+  font-family: "Open Sans",
+  sans-serif; 
+  font-size: 20px;
+  color: #444;
+  text-align: center;
+  line-height: 1.5;
+  background-color: #bfbfbf;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='24' viewBox='0 0 12 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f9f9f9' fill-opacity='0.11'%3E%3Cpath d='M2 0h2v12H2V0zm1 20c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM9 8c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-1 4h2v12H8V12z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
-  
+
+/* 
 section {
     min-height: 200px;
     padding: 6% 0;
     background-color: #bbb;
 } */
 
-
-nav,
 footer {
   padding: 1% 0;
   background-color: #aaa;
 }
 
+
+
+nav,
+footer {
+  padding: 1% 0;
+  background-color: #aaa;
+  font-size: small;
+}
+
 nav{
   display: flex;
-  /* position: fixed; */
   top:0;
   width: 100%;
-  /* background-color: rgb(251, 255, 196); */
   overflow: auto;
   height: auto;
 }
@@ -60,17 +78,9 @@ nav{
   font-size: 17px;
   font-weight: bolder;
 }
-/* .links:hover {
-  border-bottom: 2px solid purple;
-}
-.selected{
-  border-bottom: 2px solid purple;
+
+/* @media (min-width: 800px) {
+  .app-section {
+    min-height: 500px;
+  }
 } */
-.app-section {
-  font-family: "Open Sans",
-  sans-serif; 
-  font-size: 20px;
-  color: #444;
-  text-align: center;
-  line-height: 1.5;
-}
