@@ -83,7 +83,7 @@ class SalesCollection extends React.Component{
 
     render(){
         return(
-            <section className="app-section">
+            <section className="app-section full-height">
                 <header className="coll-banner">
                     <h1>Protech Sales</h1>
                 </header>
