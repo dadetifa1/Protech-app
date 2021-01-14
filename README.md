@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Live app
 
-[Go to live app](https://protech-app.vercel.app/collection).
+[Try it out](https://protech-app.vercel.app/collection).
 
 ## Github api server repo
 
