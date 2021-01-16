@@ -1,19 +1,17 @@
-
-
 * {
-    box-sizing: border-box;
-  }
-  
-body {
-    font-family: "Open Sans",
-    sans-serif; 
-    font-size: 20px;
-    color: #444;
-    text-align: center;
-    line-height: 1.5;
+  box-sizing: border-box;
 }
 
-html, body {
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  color: #111111;
+  text-align: center;
+  line-height: 1.5;
+}
+
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -25,10 +23,9 @@ html, body {
 .app-section {
   /* height: 100%; */
   padding: 6% 0;
-  font-family: "Open Sans",
-  sans-serif; 
+  font-family: 'Open Sans', sans-serif;
   font-size: 20px;
-  color: #444;
+  color: #111111;
   text-align: center;
   line-height: 1.5;
   background-color: #bfbfbf;
@@ -47,8 +44,6 @@ footer {
   background-color: #aaa;
 }
 
-
-
 nav,
 footer {
   padding: 1% 0;
@@ -56,23 +51,23 @@ footer {
   font-size: small;
 }
 
-nav{
+nav {
   display: flex;
-  top:0;
+  top: 0;
   width: 100%;
   overflow: auto;
   height: auto;
 }
 
-.left-links{
-  flex:1 1 200px;
+.left-links {
+  flex: 1 1 200px;
 }
 
 .links {
   display: inline-block;
   text-align: center;
   padding: 14px;
-  color: rgb(0, 0, 0);
+  color: #111111;
   text-decoration: none;
   font-size: 17px;
   font-weight: bolder;
