@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 export default function Nav(props) {
   return (
-    <nav className='Nav'>
+    <nav className="Nav">
       <div className="left-links">
         <Link className="links" to={'/'}>
           Home

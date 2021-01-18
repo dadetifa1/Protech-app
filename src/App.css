@@ -73,6 +73,9 @@ nav {
   font-weight: bolder;
 }
 
+.error {
+  color: red;
+}
 /* @media (min-width: 800px) {
   .app-section {
     min-height: 500px;

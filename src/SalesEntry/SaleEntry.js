@@ -138,8 +138,7 @@ class SaleEntry extends React.Component {
         sales_number: this.state.salesNumberInput.value,
         invoice: this.state.invoicenumberInput.value,
         dollar_amount: this.state.dollarAmountInput.value,
-        commission_percentage_fraction: this.state
-          .commissionPercentageInput.value,
+        commission_percentage_fraction: this.state.commissionPercentageInput.value,
         commission_amount: 0, //this.state.commissionAmountInput.value,
         po_number: this.state.poNumberInput.value,
         customer: this.state.customerInput.value,
@@ -181,8 +180,7 @@ class SaleEntry extends React.Component {
   }
 
   validateCommissionPercentage() {
-    const commissionPercentage = this.state.commissionPercentageInput
-      .value;
+    const commissionPercentage = this.state.commissionPercentageInput.value;
     if (!Number(commissionPercentage)) {
       return 'Commission Percentage is required and should be numeric';
     }
@@ -237,13 +235,11 @@ class SaleEntry extends React.Component {
   }
 
   render() {
-    const salesPeopleOptions = this.state.salesPeople.map(
-      (salePerson) => (
-        <option key={salePerson.id} value={salePerson.id}>
-          {salePerson.first_name} {salePerson.last_name}
-        </option>
-      ),
-    );
+    const salesPeopleOptions = this.state.salesPeople.map((salePerson) => (
+      <option key={salePerson.id} value={salePerson.id}>
+        {salePerson.first_name} {salePerson.last_name}
+      </option>
+    ));
     const commissionPercentError = this.validateCommissionPercentage();
     const commissionAmountError = this.validateCommissionAmount();
     const dollarAmountError = this.validateDollarAmount();
@@ -254,7 +250,7 @@ class SaleEntry extends React.Component {
             <div className="banner">
               <h1>Enter New Sale</h1>
             </div>
-
+            {this.state.errorMessage && <h3 className="error"> {this.state.errorMessage} </h3>}
             <div className="item">
               <label htmlFor="salesperson">
                 Select a sales person <span>*</span>
@@ -262,9 +258,7 @@ class SaleEntry extends React.Component {
               <select
                 name="salesperson"
                 id="salesperson"
-                onChange={(e) =>
-                  this.updateSalesPersonId(e.target.value)
-                }
+                onChange={(e) => this.updateSalesPersonId(e.target.value)}
                 required
               >
                 <option value="">.....</option>
@@ -282,9 +276,8 @@ class SaleEntry extends React.Component {
                     id="salesNumber"
                     type="text"
                     name="salesNumber"
-                    onChange={(e) =>
-                      this.updateSaleNumber(e.target.value)
-                    }
+                    onChange={(e) => this.updateSaleNumber(e.target.value)}
+                    required
                   />
                 </div>
                 <div>
@@ -295,9 +288,8 @@ class SaleEntry extends React.Component {
                     id="invoicenumber"
                     type="text"
                     name="invoicenumber"
-                    onChange={(e) =>
-                      this.updateInvoiceNumber(e.target.value)
-                    }
+                    onChange={(e) => this.updateInvoiceNumber(e.target.value)}
+                    required
                   />
                 </div>
               </div>
@@ -313,13 +305,10 @@ class SaleEntry extends React.Component {
                     id="dollaramount"
                     type="text"
                     name="dollaramount"
-                    onChange={(e) =>
-                      this.updateDollarAmout(e.target.value)
-                    }
+                    onChange={(e) => this.updateDollarAmout(e.target.value)}
+                    required
                   />
-                  {this.state.dollarAmountInput.touched && (
-                    <ValidationError message={dollarAmountError} />
-                  )}
+                  {this.state.dollarAmountInput.touched && <ValidationError message={dollarAmountError} />}
                 </div>
                 <div>
                   <label htmlFor="commissionpercentage">
@@ -329,15 +318,10 @@ class SaleEntry extends React.Component {
                     id="commissionpercentage"
                     type="text"
                     name="commissionpercentage"
-                    onChange={(e) =>
-                      this.updateCommissionPercent(e.target.value)
-                    }
+                    onChange={(e) => this.updateCommissionPercent(e.target.value)}
+                    required
                   />
-                  {this.state.commissionPercentageInput.touched && (
-                    <ValidationError
-                      message={commissionPercentError}
-                    />
-                  )}
+                  {this.state.commissionPercentageInput.touched && <ValidationError message={commissionPercentError} />}
                 </div>
               </div>
             </div>
@@ -368,9 +352,8 @@ class SaleEntry extends React.Component {
                     id="ponumber"
                     type="text"
                     name="ponumber"
-                    onChange={(e) =>
-                      this.updatePoNumber(e.target.value)
-                    }
+                    onChange={(e) => this.updatePoNumber(e.target.value)}
+                    required
                   />
                 </div>
               </div>
@@ -386,9 +369,8 @@ class SaleEntry extends React.Component {
                     id="customer"
                     type="text"
                     name="customer"
-                    onChange={(e) =>
-                      this.updateCustomer(e.target.value)
-                    }
+                    onChange={(e) => this.updateCustomer(e.target.value)}
+                    required
                   />
                 </div>
                 <div>
@@ -398,11 +380,10 @@ class SaleEntry extends React.Component {
                   <select
                     name="territory"
                     id="territory"
-                    onChange={(e) =>
-                      this.updateTerritory(e.target.value)
-                    }
+                    onChange={(e) => this.updateTerritory(e.target.value)}
+                    required
                   >
-                    <option>.....</option>
+                    <option value="">.....</option>
                     {this.renderTerritoryOptions()}
                   </select>
                 </div>
@@ -419,9 +400,8 @@ class SaleEntry extends React.Component {
                     id="vendor"
                     type="text"
                     name="vendor"
-                    onChange={(e) =>
-                      this.updateVendor(e.target.value)
-                    }
+                    onChange={(e) => this.updateVendor(e.target.value)}
+                    required
                   />
                 </div>
                 <div>
@@ -430,9 +410,7 @@ class SaleEntry extends React.Component {
                     id="datepaid"
                     type="date"
                     name="datepaid"
-                    onChange={(e) =>
-                      this.updateDatePaid(e.target.value)
-                    }
+                    onChange={(e) => this.updateDatePaid(e.target.value)}
                   />
                   <i className="fas fa-calendar-alt"></i>
                 </div>

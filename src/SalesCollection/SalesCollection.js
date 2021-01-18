@@ -46,9 +46,7 @@ class SalesCollection extends React.Component {
         }
       })
       .then(() => {
-        let updatedData = this.state.allPosting.filter(
-          (post) => post.id !== postId,
-        );
+        let updatedData = this.state.allPosting.filter((post) => post.id !== postId);
         this.setState({ allPosting: updatedData });
       })
       .catch((error) => {
@@ -71,11 +69,7 @@ class SalesCollection extends React.Component {
             </Link>
           </td>
           <td>
-            <button
-              id="delete_posting"
-              value={posting.id}
-              onClick={this.handleClickDelete(posting.id)}
-            >
+            <button id="delete_posting" value={posting.id} onClick={this.handleClickDelete(posting.id)}>
               Delete posting
             </button>
           </td>

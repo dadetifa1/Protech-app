@@ -64,15 +64,10 @@ class SaleEntryUpdate extends React.Component {
       }),
     ])
       .then(([salesPeople, PostdatatoMod]) => {
-        if (!salesPeople.ok)
-          return salesPeople.json().then((e) => Promise.reject(e));
-        if (!PostdatatoMod.ok)
-          return PostdatatoMod.json().then((e) => Promise.reject(e));
+        if (!salesPeople.ok) return salesPeople.json().then((e) => Promise.reject(e));
+        if (!PostdatatoMod.ok) return PostdatatoMod.json().then((e) => Promise.reject(e));
 
-        return Promise.all([
-          salesPeople.json(),
-          PostdatatoMod.json(),
-        ]);
+        return Promise.all([salesPeople.json(), PostdatatoMod.json()]);
       })
       .then(([salesPeople, PostdatatoMod]) => {
         this.setState({ salesPeople, PostdatatoMod });
@@ -155,8 +150,7 @@ class SaleEntryUpdate extends React.Component {
         sales_number: this.state.salesNumberInput.value,
         invoice: this.state.invoicenumberInput.value,
         dollar_amount: this.state.dollarAmountInput.value,
-        commission_percentage_fraction: this.state
-          .commissionPercentageInput.value,
+        commission_percentage_fraction: this.state.commissionPercentageInput.value,
         commission_amount: this.state.commissionAmountInput.value,
         po_number: this.state.poNumberInput.value,
         customer: this.state.customerInput.value,
@@ -198,8 +192,7 @@ class SaleEntryUpdate extends React.Component {
   }
 
   validateCommissionPercentage() {
-    const commissionPercentage = this.state.commissionPercentageInput
-      .value;
+    const commissionPercentage = this.state.commissionPercentageInput.value;
     if (!Number(commissionPercentage)) {
       return 'Commission Percentage is required and should be numeric';
     }
@@ -272,13 +265,11 @@ class SaleEntryUpdate extends React.Component {
   }
 
   render() {
-    const salesPeopleOptions = this.state.salesPeople.map(
-      (salePerson) => (
-        <option key={salePerson.id} value={salePerson.id}>
-          {salePerson.first_name} {salePerson.last_name}
-        </option>
-      ),
-    );
+    const salesPeopleOptions = this.state.salesPeople.map((salePerson) => (
+      <option key={salePerson.id} value={salePerson.id}>
+        {salePerson.first_name} {salePerson.last_name}
+      </option>
+    ));
     const commissionPercentError = this.validateCommissionPercentage();
     const commissionAmountError = this.validateCommissionAmount();
     const dollarAmountError = this.validateDollarAmount();
@@ -298,9 +289,7 @@ class SaleEntryUpdate extends React.Component {
                 name="salesperson"
                 id="salesperson"
                 value={this.state.PostdatatoMod.sale_person_id}
-                onChange={(e) =>
-                  this.updateSalesPersonId(e.target.value)
-                }
+                onChange={(e) => this.updateSalesPersonId(e.target.value)}
               >
                 <option>.....</option>
                 {salesPeopleOptions}
@@ -317,12 +306,8 @@ class SaleEntryUpdate extends React.Component {
                     id="salesNumber"
                     type="text"
                     name="salesNumber"
-                    defaultValue={
-                      this.state.PostdatatoMod.sales_number
-                    }
-                    onChange={(e) =>
-                      this.updateSaleNumber(e.target.value)
-                    }
+                    defaultValue={this.state.PostdatatoMod.sales_number}
+                    onChange={(e) => this.updateSaleNumber(e.target.value)}
                   />
                 </div>
                 <div>
@@ -334,9 +319,7 @@ class SaleEntryUpdate extends React.Component {
                     type="text"
                     name="invoicenumber"
                     defaultValue={this.state.PostdatatoMod.invoice}
-                    onChange={(e) =>
-                      this.updateInvoiceNumber(e.target.value)
-                    }
+                    onChange={(e) => this.updateInvoiceNumber(e.target.value)}
                   />
                 </div>
               </div>
@@ -352,16 +335,10 @@ class SaleEntryUpdate extends React.Component {
                     id="dollaramount"
                     type="text"
                     name="dollaramount"
-                    defaultValue={
-                      this.state.PostdatatoMod.dollar_amount
-                    }
-                    onChange={(e) =>
-                      this.updateDollarAmout(e.target.value)
-                    }
+                    defaultValue={this.state.PostdatatoMod.dollar_amount}
+                    onChange={(e) => this.updateDollarAmout(e.target.value)}
                   />
-                  {this.state.dollarAmountInput.touched && (
-                    <ValidationError message={dollarAmountError} />
-                  )}
+                  {this.state.dollarAmountInput.touched && <ValidationError message={dollarAmountError} />}
                 </div>
                 <div>
                   <label htmlFor="commissionpercentage">
@@ -371,19 +348,10 @@ class SaleEntryUpdate extends React.Component {
                     id="commissionpercentage"
                     type="text"
                     name="commissionpercentage"
-                    defaultValue={
-                      this.state.PostdatatoMod
-                        .commission_percentage_fraction
-                    }
-                    onChange={(e) =>
-                      this.updateCommissionPercent(e.target.value)
-                    }
+                    defaultValue={this.state.PostdatatoMod.commission_percentage_fraction}
+                    onChange={(e) => this.updateCommissionPercent(e.target.value)}
                   />
-                  {this.state.commissionPercentageInput.touched && (
-                    <ValidationError
-                      message={commissionPercentError}
-                    />
-                  )}
+                  {this.state.commissionPercentageInput.touched && <ValidationError message={commissionPercentError} />}
                 </div>
               </div>
             </div>
@@ -398,18 +366,10 @@ class SaleEntryUpdate extends React.Component {
                     id="comissionamount"
                     type="text"
                     name="comissionamount"
-                    defaultValue={
-                      this.state.PostdatatoMod.commission_amount
-                    }
-                    onChange={(e) =>
-                      this.updateCommissionAmount(e.target.value)
-                    }
+                    defaultValue={this.state.PostdatatoMod.commission_amount}
+                    onChange={(e) => this.updateCommissionAmount(e.target.value)}
                   />
-                  {this.state.commissionAmountInput.touched && (
-                    <ValidationError
-                      message={commissionAmountError}
-                    />
-                  )}
+                  {this.state.commissionAmountInput.touched && <ValidationError message={commissionAmountError} />}
                 </div>
                 <div>
                   <label htmlFor="ponumber">PO number</label>
@@ -418,9 +378,7 @@ class SaleEntryUpdate extends React.Component {
                     type="text"
                     name="ponumber"
                     defaultValue={this.state.PostdatatoMod.po_number}
-                    onChange={(e) =>
-                      this.updatePoNumber(e.target.value)
-                    }
+                    onChange={(e) => this.updatePoNumber(e.target.value)}
                   />
                 </div>
               </div>
@@ -437,9 +395,7 @@ class SaleEntryUpdate extends React.Component {
                     type="text"
                     name="customer"
                     defaultValue={this.state.PostdatatoMod.customer}
-                    onChange={(e) =>
-                      this.updateCustomer(e.target.value)
-                    }
+                    onChange={(e) => this.updateCustomer(e.target.value)}
                   />
                 </div>
                 <div>
@@ -450,9 +406,7 @@ class SaleEntryUpdate extends React.Component {
                     name="territory"
                     id="territory"
                     value={this.state.PostdatatoMod.territory}
-                    onChange={(e) =>
-                      this.updateTerritory(e.target.value)
-                    }
+                    onChange={(e) => this.updateTerritory(e.target.value)}
                   >
                     <option>.....</option>
                     {this.renderTerritoryOptions()}
@@ -472,9 +426,7 @@ class SaleEntryUpdate extends React.Component {
                     type="text"
                     name="vendor"
                     defaultValue={this.state.PostdatatoMod.vendor}
-                    onChange={(e) =>
-                      this.updateVendor(e.target.value)
-                    }
+                    onChange={(e) => this.updateVendor(e.target.value)}
                   />
                 </div>
                 <div>
@@ -484,9 +436,7 @@ class SaleEntryUpdate extends React.Component {
                     type="date"
                     name="datepaid"
                     defaultValue={this.state.PostdatatoMod.date_paid}
-                    onChange={(e) =>
-                      this.updateDatePaid(e.target.value)
-                    }
+                    onChange={(e) => this.updateDatePaid(e.target.value)}
                   />
                   <i className="fas fa-calendar-alt"></i>
                 </div>

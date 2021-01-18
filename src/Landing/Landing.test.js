@@ -1,13 +1,13 @@
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Nav from './Nav';
+import Landing from './Landing';
 
-it('Nav component renders the App without crashing', () => {
+it('Renders Landing component without crashing', () => {
   const div = document.createElement('div');
 
   ReactDOM.render(
     <Router>
-      <Nav />
+      <Landing />
     </Router>,
     div,
   );
