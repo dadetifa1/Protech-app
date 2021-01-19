@@ -4,6 +4,10 @@
   align-items: center;
 }
 
+.testme {
+  overflow-x: auto;
+}
+
 table {
   margin: auto;
 }

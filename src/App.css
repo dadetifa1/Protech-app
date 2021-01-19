@@ -1,6 +1,11 @@
 * {
   box-sizing: border-box;
 }
+html,
+body {
+  height: 100vh;
+  margin: 0;
+}
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -8,12 +13,7 @@ body {
   color: #111111;
   text-align: center;
   line-height: 1.5;
-}
-
-html,
-body {
-  height: 100%;
-  margin: 0;
+  padding: 0;
 }
 
 .full-height {
@@ -76,8 +76,9 @@ nav {
 .error {
   color: red;
 }
-/* @media (min-width: 800px) {
-  .app-section {
-    min-height: 500px;
+
+/* @media (min-width: 280px) {
+  body {
+    width: 385px;
   }
 } */

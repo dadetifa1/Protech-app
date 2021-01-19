@@ -84,26 +84,27 @@ class SalesCollection extends React.Component {
         <header className="coll-banner">
           <h1>Protech Sales</h1>
         </header>
-
-        <table className="blueTable">
-          <thead>
-            <tr>
-              <th>Sales number</th>
-              <th>Vendor</th>
-              <th>Territory</th>
-              <th>Invoice Number</th>
-              <th>Paid</th>
-            </tr>
-          </thead>
-          {/* <tfoot>
+        <div className="testme">
+          <table className="blueTable">
+            <thead>
+              <tr>
+                <th>Sales number</th>
+                <th>Vendor</th>
+                <th>Territory</th>
+                <th>Invoice Number</th>
+                <th>Paid</th>
+              </tr>
+            </thead>
+            {/* <tfoot>
                         <tr>
                         <td colSpan="4">
                         <div className="links"><a href="#">&laquo;</a> <a className="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">&raquo;</a></div>
                         </td>
                         </tr>
                     </tfoot> */}
-          <tbody>{this.renderTableData()}</tbody>
-        </table>
+            <tbody>{this.renderTableData()}</tbody>
+          </table>
+        </div>
       </section>
     );
   }
