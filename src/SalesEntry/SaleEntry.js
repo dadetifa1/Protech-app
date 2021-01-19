@@ -347,7 +347,9 @@ class SaleEntry extends React.Component {
                   )}
                 </div> */}
                 <div>
-                  <label htmlFor="ponumber">PO number</label>
+                  <label htmlFor="ponumber">
+                    PO number<span>*</span>
+                  </label>
                   <input
                     id="ponumber"
                     type="text"
